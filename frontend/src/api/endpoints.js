@@ -117,5 +117,17 @@ export const reportApi = {
 
     getTopSelling(limit = 10) {
         return api.get('/reports/top-selling', { params: { limit } })
+    },
+
+    // Calculate summary from sales by category
+    async getSalesSummary() {
+        const salesRes = await api.get('/reports/sales-by-category')
+        const data = salesRes.data.data || []
+        const summary = {
+            total_revenue: data.reduce((sum, cat) => sum + (cat.total_sales || 0), 0),
+            total_orders: data.reduce((sum, cat) => sum + (cat.total_orders || 0), 0),
+            total_items: data.reduce((sum, cat) => sum + (cat.total_items || 0), 0)
+        }
+        return { data: { success: true, data: summary } }
     }
 }

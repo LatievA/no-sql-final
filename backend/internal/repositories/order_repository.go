@@ -45,7 +45,7 @@ func (r *OrderRepository) GetAll(ctx context.Context, filter models.OrderFilter)
 	opts := options.Find().
 		SetSkip(int64(skip)).
 		SetLimit(int64(filter.Limit)).
-		SetSort(bson.D{{Key: "order_date", Value: -1}})
+		SetSort(bson.D{{"order_date", -1}})
 
 	cursor, err := collection.Find(ctx, query, opts)
 	if err != nil {

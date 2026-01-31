@@ -193,16 +193,16 @@
       <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <h3 class="font-semibold mb-4">Sales by Category</h3>
         <div class="space-y-3">
-          <div v-for="item in salesByCategory" :key="item._id" class="flex items-center">
-            <span class="w-40 font-medium">{{ item._id || 'Unknown' }}</span>
+          <div v-for="item in salesByCategory" :key="item.category_id" class="flex items-center">
+            <span class="w-40 font-medium">{{ item.category_name || 'Unknown' }}</span>
             <div class="flex-1 h-4 bg-gray-200 rounded-full overflow-hidden">
               <div 
                 class="h-full bg-primary-500" 
-                :style="{ width: `${(item.total_revenue / maxRevenue) * 100}%` }"
+                :style="{ width: `${(item.total_sales / maxRevenue) * 100}%` }"
               ></div>
             </div>
-            <span class="w-32 text-right font-medium">{{ formatPrice(item.total_revenue) }}</span>
-            <span class="w-20 text-right text-gray-500">{{ item.total_sold }} sold</span>
+            <span class="w-32 text-right font-medium">{{ formatPrice(item.total_sales) }}</span>
+            <span class="w-20 text-right text-gray-500">{{ item.total_items }} sold</span>
           </div>
         </div>
       </div>
@@ -220,11 +220,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in topSelling" :key="item.bicycle_id">
+            <tr v-for="(item, index) in topSelling" :key="item._id">
               <td class="py-2">{{ index + 1 }}</td>
               <td class="py-2 font-medium">{{ item.model_name }}</td>
               <td class="py-2">{{ item.total_sold }}</td>
-              <td class="py-2 font-medium text-primary-600">{{ formatPrice(item.total_revenue) }}</td>
+              <td class="py-2 font-medium text-primary-600">{{ formatPrice(item.total_sales) }}</td>
             </tr>
           </tbody>
         </table>
@@ -366,7 +366,7 @@ const bicycleForm = reactive({
 })
 
 const maxRevenue = computed(() => {
-  return Math.max(...salesByCategory.value.map(s => s.total_revenue), 1)
+  return Math.max(...salesByCategory.value.map(s => s.total_sales || 0), 1)
 })
 
 async function fetchData() {
@@ -377,7 +377,7 @@ async function fetchData() {
       orderApi.getAll({ limit: 100 }),
       reportApi.getSalesSummary(),
       reportApi.getSalesByCategory(),
-      reportApi.getTopSelling({ limit: 5 }),
+      reportApi.getTopSelling(5),
       customerApi.getAll()
     ])
     
