@@ -1,0 +1,1246 @@
+basePath: /api/v1
+definitions:
+  bicycle-store_internal_models.APIResponse:
+    properties:
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  bicycle-store_internal_models.Address:
+    properties:
+      address_type:
+        description: home, work, other
+        type: string
+      city:
+        type: string
+      is_default:
+        type: boolean
+      postal_code:
+        type: string
+      street:
+        type: string
+    type: object
+  bicycle-store_internal_models.AddressInput:
+    properties:
+      address_type:
+        type: string
+      city:
+        type: string
+      is_default:
+        type: boolean
+      postal_code:
+        type: string
+      street:
+        type: string
+    required:
+    - address_type
+    - city
+    - postal_code
+    - street
+    type: object
+  bicycle-store_internal_models.AuthResponse:
+    properties:
+      success:
+        type: boolean
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/bicycle-store_internal_models.CustomerResponse'
+    type: object
+  bicycle-store_internal_models.Bicycle:
+    properties:
+      brand:
+        type: string
+      category_id:
+        type: string
+      created_at:
+        type: string
+      customization_options:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.CustomizationOption'
+        type: array
+      description:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      model_name:
+        type: string
+      price:
+        type: number
+      reviews:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.Review'
+        type: array
+      specifications:
+        $ref: '#/definitions/bicycle-store_internal_models.Specifications'
+      stock_quantity:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - brand
+    - category_id
+    - model_name
+    - price
+    type: object
+  bicycle-store_internal_models.BicycleInput:
+    properties:
+      brand:
+        type: string
+      category_id:
+        type: string
+      customization_options:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.CustomizationOption'
+        type: array
+      description:
+        type: string
+      image_url:
+        type: string
+      model_name:
+        type: string
+      price:
+        type: number
+      specifications:
+        $ref: '#/definitions/bicycle-store_internal_models.Specifications'
+      stock_quantity:
+        type: integer
+    required:
+    - brand
+    - category_id
+    - model_name
+    - price
+    type: object
+  bicycle-store_internal_models.Category:
+    properties:
+      category_name:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - category_name
+    type: object
+  bicycle-store_internal_models.CategoryInput:
+    properties:
+      category_name:
+        type: string
+      description:
+        type: string
+    required:
+    - category_name
+    type: object
+  bicycle-store_internal_models.CustomerInput:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  bicycle-store_internal_models.CustomerResponse:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.Address'
+        type: array
+      email:
+        type: string
+      id:
+        type: string
+      loyalty_points:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      registered_date:
+        type: string
+      role:
+        type: string
+    type: object
+  bicycle-store_internal_models.CustomizationOption:
+    properties:
+      name:
+        description: e.g., "frame_color", "wheel_size", "accessories"
+        type: string
+      options:
+        description: e.g., ["Red", "Blue", "Black"]
+        items:
+          type: string
+        type: array
+    type: object
+  bicycle-store_internal_models.DeliveryAddress:
+    properties:
+      city:
+        type: string
+      phone:
+        type: string
+      postal_code:
+        type: string
+      street:
+        type: string
+    type: object
+  bicycle-store_internal_models.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  bicycle-store_internal_models.Order:
+    properties:
+      created_at:
+        type: string
+      customer_id:
+        type: string
+      customer_name:
+        type: string
+      delivery_address:
+        $ref: '#/definitions/bicycle-store_internal_models.DeliveryAddress'
+      id:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.OrderItem'
+        type: array
+      order_date:
+        type: string
+      payment_method:
+        type: string
+      payment_status:
+        description: pending, paid, refunded
+        type: string
+      status:
+        description: pending, confirmed, shipped, delivered, cancelled
+        type: string
+      total_amount:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  bicycle-store_internal_models.OrderInput:
+    properties:
+      delivery_address:
+        $ref: '#/definitions/bicycle-store_internal_models.DeliveryAddress'
+      items:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.OrderItemInput'
+        minItems: 1
+        type: array
+      payment_method:
+        type: string
+    required:
+    - delivery_address
+    - items
+    - payment_method
+    type: object
+  bicycle-store_internal_models.OrderItem:
+    properties:
+      bicycle_id:
+        type: string
+      brand:
+        type: string
+      model_name:
+        type: string
+      price_at_purchase:
+        type: number
+      quantity:
+        type: integer
+      selected_customizations:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.SelectedCustomization'
+        type: array
+    type: object
+  bicycle-store_internal_models.OrderItemInput:
+    properties:
+      bicycle_id:
+        type: string
+      quantity:
+        minimum: 1
+        type: integer
+      selected_customizations:
+        items:
+          $ref: '#/definitions/bicycle-store_internal_models.SelectedCustomization'
+        type: array
+    required:
+    - bicycle_id
+    - quantity
+    type: object
+  bicycle-store_internal_models.OrderStatusInput:
+    properties:
+      status:
+        type: string
+    required:
+    - status
+    type: object
+  bicycle-store_internal_models.PaginatedResponse:
+    properties:
+      data: {}
+      limit:
+        type: integer
+      page:
+        type: integer
+      success:
+        type: boolean
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+  bicycle-store_internal_models.Review:
+    properties:
+      comment:
+        type: string
+      customer_id:
+        type: string
+      customer_name:
+        type: string
+      rating:
+        type: integer
+      review_date:
+        type: string
+      review_id:
+        type: string
+    type: object
+  bicycle-store_internal_models.ReviewInput:
+    properties:
+      comment:
+        type: string
+      rating:
+        maximum: 5
+        minimum: 1
+        type: integer
+    required:
+    - comment
+    - rating
+    type: object
+  bicycle-store_internal_models.SalesByCategory:
+    properties:
+      category_id: {}
+      category_name:
+        type: string
+      total_items:
+        type: integer
+      total_orders:
+        type: integer
+      total_sales:
+        type: number
+    type: object
+  bicycle-store_internal_models.SelectedCustomization:
+    properties:
+      name:
+        description: e.g., "frame_color"
+        type: string
+      value:
+        description: e.g., "Red"
+        type: string
+    type: object
+  bicycle-store_internal_models.Specifications:
+    properties:
+      brake_type:
+        type: string
+      frame_material:
+        type: string
+      gear_count:
+        type: integer
+      max_load:
+        type: string
+      suspension:
+        type: string
+      weight:
+        type: string
+      wheel_size:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@bicyclestore.com
+    name: API Support
+  description: REST API for Sports Bicycle Store Management System
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Sports Bicycle Store API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and return JWT token
+      parameters:
+      - description: Login credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.AuthResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      summary: Login to the system
+      tags:
+      - auth
+  /auth/me:
+    get:
+      description: Get the currently authenticated user's profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.CustomerResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get current user
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new customer account
+      parameters:
+      - description: Customer registration data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.CustomerInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      summary: Register a new customer
+      tags:
+      - auth
+  /bicycles:
+    get:
+      description: Get a paginated list of bicycles with optional filters
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by category ID
+        in: query
+        name: category_id
+        type: string
+      - description: Minimum price
+        in: query
+        name: min_price
+        type: number
+      - description: Maximum price
+        in: query
+        name: max_price
+        type: number
+      - description: Filter by brand
+        in: query
+        name: brand
+        type: string
+      - description: Search in model name, brand, description
+        in: query
+        name: search
+        type: string
+      - default: created_at
+        description: Sort field
+        in: query
+        name: sort
+        type: string
+      - default: desc
+        description: Sort order (asc/desc)
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.PaginatedResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/bicycle-store_internal_models.Bicycle'
+                  type: array
+              type: object
+      summary: Get all bicycles
+      tags:
+      - bicycles
+    post:
+      consumes:
+      - application/json
+      description: Create a new bicycle (Admin only)
+      parameters:
+      - description: Bicycle data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.BicycleInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Bicycle'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new bicycle
+      tags:
+      - bicycles
+  /bicycles/{id}:
+    delete:
+      description: Delete a bicycle (Admin only)
+      parameters:
+      - description: Bicycle ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a bicycle
+      tags:
+      - bicycles
+    get:
+      description: Get a single bicycle by its ID
+      parameters:
+      - description: Bicycle ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Bicycle'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      summary: Get bicycle by ID
+      tags:
+      - bicycles
+    put:
+      consumes:
+      - application/json
+      description: Update an existing bicycle (Admin only)
+      parameters:
+      - description: Bicycle ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Bicycle data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.BicycleInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Bicycle'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a bicycle
+      tags:
+      - bicycles
+  /bicycles/{id}/reviews:
+    post:
+      consumes:
+      - application/json
+      description: Add a customer review to a bicycle
+      parameters:
+      - description: Bicycle ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Review data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.ReviewInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Bicycle'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Add a review to a bicycle
+      tags:
+      - bicycles
+  /bicycles/{id}/stock:
+    patch:
+      consumes:
+      - application/json
+      description: Update the stock quantity of a bicycle (Admin only)
+      parameters:
+      - description: Bicycle ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Stock quantity change (positive or negative)
+        in: body
+        name: input
+        required: true
+        schema:
+          properties:
+            quantity:
+              type: integer
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update bicycle stock
+      tags:
+      - bicycles
+  /categories:
+    get:
+      description: Get a list of all bicycle categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/bicycle-store_internal_models.Category'
+                  type: array
+              type: object
+      summary: Get all categories
+      tags:
+      - categories
+    post:
+      consumes:
+      - application/json
+      description: Create a new bicycle category (Admin only)
+      parameters:
+      - description: Category data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.CategoryInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Category'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new category
+      tags:
+      - categories
+  /categories/{id}:
+    delete:
+      description: Delete a category (Admin only)
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a category
+      tags:
+      - categories
+    get:
+      description: Get a single category by its ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Category'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      summary: Get category by ID
+      tags:
+      - categories
+    put:
+      consumes:
+      - application/json
+      description: Update an existing category (Admin only)
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.CategoryInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Category'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update a category
+      tags:
+      - categories
+  /customers:
+    get:
+      description: Get a list of all customers (Admin only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/bicycle-store_internal_models.CustomerResponse'
+                  type: array
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get all customers (Admin)
+      tags:
+      - customers
+  /customers/{id}:
+    get:
+      description: Get a single customer by ID (Admin only)
+      parameters:
+      - description: Customer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.CustomerResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get customer by ID
+      tags:
+      - customers
+  /customers/addresses:
+    post:
+      consumes:
+      - application/json
+      description: Add a new address to the authenticated customer's profile
+      parameters:
+      - description: Address data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.AddressInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.CustomerResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Add address to customer
+      tags:
+      - customers
+  /customers/addresses/{type}:
+    delete:
+      description: Remove an address from the authenticated customer's profile
+      parameters:
+      - description: Address type (home, work, other)
+        in: path
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove address from customer
+      tags:
+      - customers
+  /customers/profile:
+    put:
+      consumes:
+      - application/json
+      description: Update the authenticated customer's profile
+      parameters:
+      - description: Profile data
+        in: body
+        name: input
+        required: true
+        schema:
+          properties:
+            name:
+              type: string
+            phone:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.CustomerResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update customer profile
+      tags:
+      - customers
+  /orders:
+    get:
+      description: Get a paginated list of all orders (Admin only)
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter by customer ID
+        in: query
+        name: customer_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.PaginatedResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/bicycle-store_internal_models.Order'
+                  type: array
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get all orders (Admin)
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a new order for the authenticated customer
+      parameters:
+      - description: Order data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.OrderInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Order'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Create a new order
+      tags:
+      - orders
+  /orders/{id}:
+    get:
+      description: Get a single order by its ID
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Order'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get order by ID
+      tags:
+      - orders
+  /orders/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update the status of an order (Admin only)
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New status
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/bicycle-store_internal_models.OrderStatusInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/bicycle-store_internal_models.Order'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update order status
+      tags:
+      - orders
+  /orders/my:
+    get:
+      description: Get orders for the authenticated customer
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Items per page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.PaginatedResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/bicycle-store_internal_models.Order'
+                  type: array
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get current user's orders
+      tags:
+      - orders
+  /reports/sales-by-category:
+    get:
+      description: Get sales statistics grouped by category (Admin only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/bicycle-store_internal_models.SalesByCategory'
+                  type: array
+              type: object
+      security:
+      - BearerAuth: []
+      summary: Get sales by category
+      tags:
+      - reports
+  /reports/top-selling:
+    get:
+      description: Get the top N best-selling bicycles (Admin only)
+      parameters:
+      - default: 10
+        description: Number of results
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/bicycle-store_internal_models.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get top selling bicycles
+      tags:
+      - reports
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
