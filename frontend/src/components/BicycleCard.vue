@@ -1,7 +1,13 @@
 <template>
   <router-link :to="`/bicycles/${bicycle.id}`" class="card hover:shadow-lg transition-shadow duration-300">
-    <div class="aspect-w-16 aspect-h-12 bg-gray-100">
-      <div class="w-full h-48 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+    <div class="aspect-w-16 aspect-h-12 bg-gray-100 relative overflow-hidden">
+      <img 
+        v-if="bicycle.image_url" 
+        :src="bicycle.image_url" 
+        :alt="bicycle.model_name"
+        class="w-full h-48 object-cover object-center"
+      />
+      <div v-else class="w-full h-48 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
         <svg class="w-20 h-20 text-gray-400" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="25" cy="65" r="18" stroke="currentColor" stroke-width="3"/>
           <circle cx="75" cy="65" r="18" stroke="currentColor" stroke-width="3"/>

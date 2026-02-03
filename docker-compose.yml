@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongodb:
     image: mongo:7
@@ -18,6 +16,27 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+
+  mongo-init:
+    image: mongo:7
+    container_name: bicycle_store_mongo_init
+    restart: "no"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - bicycle_network
+    command: >
+      bash -c "mongosh --host mongodb:27017 --eval '
+        try {
+          rs.status();
+          console.log(\"Replica set already initialized\");
+        } catch (e) {
+          rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"mongodb:27017\"}]});
+          console.log(\"Replica set initialized\");
+        }
+      '"
 
   backend:
     build:

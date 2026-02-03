@@ -5,6 +5,7 @@ import (
 	"bicycle-store/internal/database"
 	"bicycle-store/internal/middleware"
 	"bicycle-store/internal/routes"
+	_ "bicycle-store/docs"
 	"log"
 
 	"github.com/gin-gonic/gin"
